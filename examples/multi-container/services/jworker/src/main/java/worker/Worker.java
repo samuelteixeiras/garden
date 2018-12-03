@@ -30,7 +30,7 @@ class Worker {
 
   static void updateVote(Connection dbConn, String voterID, String vote) throws SQLException {
     PreparedStatement insert = dbConn.prepareStatement(
-      "INSERT INTO votes (id, vote) VALUES (?, ?)");
+      "INSERT INTO votes (id, vote, created_at) VALUES (?, ?, NOW())");
     insert.setString(1, voterID);
     insert.setString(2, vote);
 
@@ -80,7 +80,7 @@ class Worker {
       }
 
       PreparedStatement st = conn.prepareStatement(
-        "CREATE TABLE IF NOT EXISTS votes (id VARCHAR(255) NOT NULL UNIQUE, vote VARCHAR(255) NOT NULL)");
+        "CREATE TABLE IF NOT EXISTS votes (id VARCHAR(255) NOT NULL UNIQUE, vote VARCHAR(255) NOT NULL, created_at timestamp default NULL )");
       st.executeUpdate();
 
     } catch (ClassNotFoundException e) {
