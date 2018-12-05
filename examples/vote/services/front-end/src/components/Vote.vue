@@ -1,4 +1,60 @@
-@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700,600);
+<template>
+  <div class="hello">
+        <div id="content-container">
+      <div id="content-container-center">
+         <div id="choice" >
+        <h3>Cats vs Dogs!</h3>
+          <button id="b" type="submit" name="vote" class="a" v-on:click="vote('a')" value="a">{{optionA}}</button>
+          <button id="b" type="submit" name="vote" class="b" v-on:click="vote('b')" value="a">{{optionB}}</button>
+
+        </div>
+        <div id="tip">
+            <p v-if="voteResult">The button above has been clicked {{ counter }} times.</p>
+          (Tip: you can change your vote)adsf
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  data: function() {
+    return {
+      counter: 0,
+      voteResult: '',
+
+    };
+  },
+  props: {
+    optionA: String,
+    optionB: String
+  },
+  methods:{
+    vote: function(v){
+      console.log(v);
+      this.voteResult = v;
+      const headers =   {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }
+      var self = this;
+			axios.post('/vote/', "vote=" + this.voteResult,{ headers }).then(function(result){
+        console.log(result);
+        self.counter++;
+      });
+    }
+  }
+};
+//adfadsf
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  @import url(//fonts.googleapis.com/css?family=Open+Sans:400,700,600);
+
 
 *{
   box-sizing:border-box;
@@ -39,15 +95,6 @@ button.b{
   text-align: left;
   color: #c0c9ce;
   font-size: 14px;
-}
-
-#hostname{
-  position: absolute;
-  bottom: 100px;
-  right: 0;
-  left: 0;
-  color: #8f9ea8;
-  font-size: 24px;
 }
 
 #content-container{
@@ -114,16 +161,4 @@ button.b{
   background-color: #00a2a1;
 }
 
-#background-stats{
-  z-index:1;
-  height:100%;
-  width:100%;
-  position:absolute;
-}
-#background-stats div{
-  transition: width 400ms ease-in-out;
-  display:inline-block;
-  margin-bottom:-4px;
-  width:50%;
-  height:100%;
-}
+</style>

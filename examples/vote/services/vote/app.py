@@ -17,11 +17,7 @@ def get_redis():
     return g.redis
 
 @app.route("/vote/", methods=['POST','GET'])
-def hello():
-    # voter_id = request.cookies.get('voter_id')
-    # print("hello")
-    # if not voter_id:
-    # Allways allow new votes
+def vote():
     voter_id = hex(random.getrandbits(64))[2:-1]
 
     vote = None
@@ -33,16 +29,19 @@ def hello():
 
         redis.rpush('votes', data)
         print("Registered vote")
+        response = app.response_class(
+          response=json.dumps(data),
+          status=200,
+          mimetype='application/json'
+        )
+        return response
 
-    resp = make_response(render_template(
-        'index.html',
-        option_a=option_a,
-        option_b=option_b,
-        hostname=hostname,
-        vote=vote,
-    ))
-    resp.set_cookie('voter_id', voter_id)
-    return resp
+    response = app.response_class(
+      response=json.dumps({}),
+      status=404,
+      mimetype='application/json'
+    )
+    return response
 
 
 if __name__ == "__main__":
