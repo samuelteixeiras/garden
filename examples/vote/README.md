@@ -23,11 +23,11 @@ Good afternoon! Let's get your environment wired up...
 
 ### To Vote
 
-open http://multi-container.local.app.garden/
+open http://vote.local.app.garden/
 
 ### View Results
 
-open http://multi-container.local.app.garden/
+open http://vote.local.app.garden/result
 
 ## Setup
 
@@ -53,4 +53,11 @@ Create a Kubernetes Secret with your generated certificate and key.
 
 ```sh
 kubectl create secret -n default tls garden-tls --key local.app.garden+1-key.pem --cert local.app.garden+1.pem
+```
+
+
+## Running
+
+```sh
+garden-local dev --hot-reload=front-end
 ```
