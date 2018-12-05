@@ -6,3 +6,4 @@ module:
     - name: javaworker
       dependencies:
         - redis
+        - db-init
